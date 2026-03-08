@@ -18,6 +18,7 @@ import { ContactPanel } from "@/components/ui/contact-panel";
 import { AIAssistant } from "@/components/ui/ai-assistant";
 import { SettingsPanel } from "@/components/ui/settings-panel";
 import { VoiceNarration } from "@/components/ui/voice-narration";
+import { TopNavBar } from "@/components/ui/top-nav-bar";
 
 // Dynamically import 3D Scene to avoid SSR issues
 const Scene = dynamic(() => import("@/components/3d/Scene"), {
@@ -85,6 +86,9 @@ export default function Home() {
         onProjectClick={handleProjectClick}
       />
 
+      {/* Top navigation bar (desktop) */}
+      <TopNavBar currentSection={currentSection} onNavigate={handleNavigate} />
+
       {/* Section indicator */}
       <SectionIndicator section={currentSection} progress={progress} />
 
@@ -120,10 +124,18 @@ export default function Home() {
 
       {/* Welcome hint for first-time visitors */}
       {!isReturning && progress === 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 animate-bounce">
-          <div className="px-4 py-2 rounded-full bg-background/80 backdrop-blur-sm border border-cyan-500/20 text-sm text-muted-foreground">
-            Scroll or use arrows to navigate
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center gap-3">
+          <div className="animate-bounce">
+            <div className="px-4 py-2 rounded-full bg-background/80 backdrop-blur-sm border border-cyan-500/20 text-sm text-muted-foreground">
+              Scroll, swipe, or tap the menu to navigate
+            </div>
           </div>
+          <button
+            onClick={() => handleNavigate("about")}
+            className="px-6 py-3 rounded-full bg-cyan-400/20 hover:bg-cyan-400/30 border border-cyan-400/50 text-cyan-400 font-medium text-sm transition-all"
+          >
+            Start Exploring
+          </button>
         </div>
       )}
     </main>
